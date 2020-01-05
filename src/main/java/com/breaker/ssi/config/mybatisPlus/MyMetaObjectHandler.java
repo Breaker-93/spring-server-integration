@@ -32,8 +32,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-//        User user = (User) Securit/yContextHolder.getContext().getAuthentication().getPrincipal();
-//        this.setFieldValByName("updateBy", user.getId(), metaObject);
+        String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        this.setFieldValByName("updateBy", userId, metaObject);
         this.setFieldValByName("updateDate", LocalDateTime.now(), metaObject);
     }
 }

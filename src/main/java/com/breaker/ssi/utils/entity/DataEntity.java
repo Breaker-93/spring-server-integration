@@ -3,11 +3,9 @@ package com.breaker.ssi.utils.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -28,14 +26,11 @@ public abstract class DataEntity<T>  implements Serializable {
      * 创建日期
      */
     @TableField(value="CREATE_DATE", fill = FieldFill.INSERT)
-    @DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy/MM/dd HH:mm")
     protected LocalDateTime createDate;
 
     /**
      * 修改人
      */
-//    @TableField("UPDATE_BY")
     @TableField(value="UPDATE_BY", fill = FieldFill.INSERT_UPDATE)
     protected String updateBy;
 
@@ -43,8 +38,6 @@ public abstract class DataEntity<T>  implements Serializable {
      * 修改日期
      */
     @TableField(value="UPDATE_DATE", fill = FieldFill.INSERT_UPDATE)
-    @DateTimeFormat(pattern="yyyy/MM/dd HH:mm:ss")
-    @JsonFormat(timezone = "GMT+8",pattern = "yyyy/MM/dd HH:mm")
     protected LocalDateTime updateDate;
 
     /**

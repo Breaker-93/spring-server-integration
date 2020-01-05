@@ -1,6 +1,10 @@
 package com.breaker.ssi.config.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.breaker.ssi.utils.result.ResultEnums;
+import com.breaker.ssi.utils.result.Ret;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,7 +49,11 @@ public class JwtFilter extends GenericFilterBean {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(token);
         }catch (Exception e) {
-            System.out.println(e);
+            if(e instanceof ExpiredJwtException) {
+                servletResponse.setContentType("application/json;charset=UTF-8");
+                servletResponse.getWriter().write(JSON.toJSONString(new Ret(ResultEnums.TOKEN_EXPIRED)));
+                return;
+            }
         }
         filterChain.doFilter(req,servletResponse);
     }

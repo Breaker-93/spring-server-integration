@@ -6,6 +6,7 @@ public enum ResultEnums {
     ERROR("400", "操作失败"),
     LOGIN_ERROR("401","登录失败"),
     UNAUTHORIZED("402", "未认证（签名错误）"),
+    TOKEN_EXPIRED("402", "token已过期"),
     SYSTEM_ERROR("403", "系统异常"),
     NOT_FIND("404", "接口找不到"),
     BUSINESS_ERROR("500", "业务逻辑错误");
