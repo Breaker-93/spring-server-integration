@@ -17,5 +17,6 @@ import java.util.List;
  */
 public interface IBookService extends IService<Book> {
     int logicalDelete(String id);
+    int recoverLogDel(String id);
     List<BookResponseDto> listByDto(BookRequestDto requestDto);
 }

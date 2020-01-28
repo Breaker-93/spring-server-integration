@@ -9,13 +9,17 @@
  
 ## <span id="top">配置实现了以下主要功能：</span>
  - [√ Spring Security 结合jwt实现授权和认证](#jwt)
- - [√ Controller层异常拦截并统一处理](#exception)
+ - [ Controller层异常拦截并统一处理](#exception)
  - [√ 配置CORS跨域](#cors)
  - [√ swagger2配置](#swagger)
  - [√ MybatisPlus相关功能配置](#mybatisplus)
     - 分页功能
     - 自动填充
  - [ 接口返回结果封装、统一处理](#mybatisplus)
+ - [√ RESTFul Api 设计](#)
+ 
+ 
+ - [ 接口中sql日志打印](#)
  ### <span id="jwt">✅ 1、Spring Security 结合jwt实现授权和认证</span>
  [▲ 回顶部](#top)
  ### <span id="exception">✅ 2、Controller层异常拦截并统一处理</span>

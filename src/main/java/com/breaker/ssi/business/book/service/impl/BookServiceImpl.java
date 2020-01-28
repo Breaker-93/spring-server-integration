@@ -39,6 +39,14 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
     }
 
     @Override
+    public int recoverLogDel(String id) {
+        Book book = new Book();
+        book.setNotDeleted();
+        book.setBusinessId(id);
+        return this.baseMapper.updateById(book);
+    }
+
+    @Override
     public List<BookResponseDto> listByDto(BookRequestDto requestDto) {
         QueryWrapper queryWrapper = getQueryWrapper(requestDto);
         List<Book> bookList = bookMapper.selectList(queryWrapper);
@@ -48,6 +56,12 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
 
     private QueryWrapper getQueryWrapper(BookRequestDto requestDto) {
         QueryWrapper queryWrapper = new QueryWrapper();
+        if(requestDto.getName() != null) {
+            queryWrapper.like("name", requestDto.getName());
+        }
+        if(requestDto.getPrice() != null) {
+            queryWrapper.like("price", requestDto.getPrice());
+        }
         queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
         queryWrapper.eq("flag", FlagStatus.START.getStatus());
         return queryWrapper;
