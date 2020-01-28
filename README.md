@@ -17,9 +17,7 @@
     - 自动填充
  - [ 接口返回结果封装、统一处理](#mybatisplus)
  - [√ RESTFul Api 设计](#)
- 
- 
- - [ 接口中sql日志打印](#)
+ - [√ 日志打印设置](#)
  ### <span id="jwt">✅ 1、Spring Security 结合jwt实现授权和认证</span>
  [▲ 回顶部](#top)
  ### <span id="exception">✅ 2、Controller层异常拦截并统一处理</span>
