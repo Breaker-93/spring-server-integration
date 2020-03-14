@@ -19,8 +19,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        this.setFieldValByName("businessId",  new UUID(random.nextLong(), random.nextLong()).toString().replace("-", ""), metaObject);
+//        ThreadLocalRandom random = ThreadLocalRandom.current();
+//        this.setFieldValByName("businessId",  new UUID(random.nextLong(), random.nextLong()).toString().replace("-", ""), metaObject);
         this.setFieldValByName("createBy", userId, metaObject);
         this.setFieldValByName("createDate", LocalDateTime.now(), metaObject);
         this.setFieldValByName("updateBy", userId, metaObject);
