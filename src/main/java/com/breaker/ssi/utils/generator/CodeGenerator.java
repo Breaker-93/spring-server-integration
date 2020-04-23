@@ -110,6 +110,8 @@ public class CodeGenerator {
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix("_");
         strategy.setSuperEntityClass("com.breaker.ssi.utils.entity.IdEntity");
+        strategy.setSuperEntityColumns(new String[] { "BUSINESS_ID", "CREATE_BY", "CREATE_DATE", "UPDATE_BY", "UPDATE_DATE", "DEL_FLAG", "FLAG"});
+        strategy.setEntitySerialVersionUID(false);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.entityTableFieldAnnotationEnable(true);
