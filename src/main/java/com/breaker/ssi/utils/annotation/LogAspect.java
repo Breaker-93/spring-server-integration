@@ -60,7 +60,10 @@ public class LogAspect {
             if(exceptionMes.length() > 300) {
                 exceptionMes = exceptionMes.substring(0, 300);
             }
+            sysLog.setOperateResult(0);
             sysLog.setFailReason(exceptionMes);
+        }else {
+            sysLog.setOperateResult(1);
         }
 
         //获取用户id

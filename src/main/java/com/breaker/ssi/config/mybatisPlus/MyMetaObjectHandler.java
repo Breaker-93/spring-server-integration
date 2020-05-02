@@ -1,6 +1,8 @@
 package com.breaker.ssi.config.mybatisPlus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.breaker.ssi.utils.entity.DelStatus;
+import com.breaker.ssi.utils.entity.UseStatus;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -22,11 +24,11 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 //        ThreadLocalRandom random = ThreadLocalRandom.current();
 //        this.setFieldValByName("businessId",  new UUID(random.nextLong(), random.nextLong()).toString().replace("-", ""), metaObject);
         this.setFieldValByName("createBy", userId, metaObject);
-        this.setFieldValByName("createDate", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
         this.setFieldValByName("updateBy", userId, metaObject);
-        this.setFieldValByName("updateDate", LocalDateTime.now(), metaObject);
-        this.setFieldValByName("delFlag", "0", metaObject);
-        this.setFieldValByName("flag", "1", metaObject);
+        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("delFlag", DelStatus.NORMAL.getStatus(), metaObject);
+        this.setFieldValByName("useFlag", UseStatus.START.getStatus(), metaObject);
 
     }
 
@@ -34,6 +36,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         String userId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.setFieldValByName("updateBy", userId, metaObject);
-        this.setFieldValByName("updateDate", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
     }
 }

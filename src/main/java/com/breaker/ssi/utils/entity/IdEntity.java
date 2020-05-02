@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public abstract class IdEntity<T> extends DataEntity<T>  implements Serializable {
+public abstract class IdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

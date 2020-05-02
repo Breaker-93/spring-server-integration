@@ -34,7 +34,7 @@ public class CodeGenerator {
         throw new MybatisPlusException("请输入正确的" + tip + "！");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -109,9 +109,10 @@ public class CodeGenerator {
         strategy.setSuperEntityColumns("id");
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix("_");
-        strategy.setSuperEntityClass("com.breaker.ssi.utils.entity.IdEntity");
+        strategy.setSuperEntityClass("com.breaker.ssi.utils.entity.CommonEntity");
         strategy.setSuperEntityColumns(new String[] { "BUSINESS_ID", "CREATE_BY", "CREATE_TIME", "UPDATE_BY", "UPDATE_TIME", "DEL_FLAG", "USE_FLAG"});
         strategy.setEntitySerialVersionUID(false);
+//        strategy.setSuperControllerClass("com.breaker.ssi.utils.entity.BaseDelController");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.entityTableFieldAnnotationEnable(true);

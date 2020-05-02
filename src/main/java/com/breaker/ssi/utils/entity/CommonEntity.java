@@ -2,7 +2,9 @@ package com.breaker.ssi.utils.entity;
 
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class DataEntity<T>  implements Serializable {
+public abstract class CommonEntity extends IdEntity implements Serializable {
+
     protected static final long serialVersionUID = 1L;
 
     /**
@@ -88,6 +91,5 @@ public abstract class DataEntity<T>  implements Serializable {
         this.setUseFlag(UseStatus.START.getStatus());
         this.setDelFlag(DelStatus.NORMAL.getStatus());
     }
-
 
 }

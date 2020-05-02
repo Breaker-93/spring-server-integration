@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.breaker.ssi.utils.entity.IdEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -23,15 +22,10 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @TableName("sys_log")
-public class SysLog implements Serializable {
+public class SysLog extends IdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 编号
-     */
-    @TableId(value = "BUSINESS_ID", type = IdType.ASSIGN_UUID)
-    private String businessId;
     /**
      * 操作内容（50个字符以内）
      */
