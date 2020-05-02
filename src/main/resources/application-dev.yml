@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3307/demo_test?useUnicode=true&characterEncoding=utf8&serverTimezone=CTT
+    url: jdbc:mysql://127.0.0.1:3307/base_auth?useUnicode=true&characterEncoding=utf8&serverTimezone=CTT
     username: root
     password: 123456
   jackson:
@@ -15,11 +15,11 @@ spring:
 jwt:
   tokenHeader: Authentication
   tokenPrefix: Bearer
-  secret: 91isoft_jwt
-  expiration: 60000000  # 1000分钟
+  secret: breaker93_jwt
+  expiration: 6000000  # 100分钟
 logging:
   file:
     path: ./log/
     max-size: 5MB
   level:
-    com.breaker.ssi.business: debug
+    com.breaker.ssi.business: warn

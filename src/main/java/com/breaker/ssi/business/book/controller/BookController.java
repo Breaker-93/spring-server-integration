@@ -10,7 +10,7 @@ import com.breaker.ssi.business.book.entity.Book;
 import com.breaker.ssi.business.book.service.IBookService;
 import com.breaker.ssi.utils.DozerUtils;
 import com.breaker.ssi.utils.entity.DelStatus;
-import com.breaker.ssi.utils.entity.FlagStatus;
+import com.breaker.ssi.utils.entity.UseStatus;
 import com.breaker.ssi.utils.result.Ret;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -139,7 +139,7 @@ public class BookController {
             queryWrapper.like("price", bookRequestDto.getPrice());
         }
         queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
-        queryWrapper.eq("flag", FlagStatus.START.getStatus());
+        queryWrapper.eq("flag", UseStatus.START.getStatus());
         return Ret.ok().setData(bookServiceImpl.page(new Page<>(page,size),queryWrapper));
     }
 }

@@ -7,13 +7,13 @@ package com.breaker.ssi.utils.entity;
  * Time: 下午2:06
  * description:
  */
-public enum FlagStatus {
+public enum UseStatus {
     //启用1  停用0
     START("1"),STOP("0");
 
     private String status;
 
-    FlagStatus(String status){
+    UseStatus(String status){
         this.status = status;
     }
 

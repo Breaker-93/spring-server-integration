@@ -9,7 +9,7 @@ import com.breaker.ssi.business.book.service.IBookService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.breaker.ssi.utils.DozerUtils;
 import com.breaker.ssi.utils.entity.DelStatus;
-import com.breaker.ssi.utils.entity.FlagStatus;
+import com.breaker.ssi.utils.entity.UseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +63,7 @@ public class BookServiceImpl extends ServiceImpl<BookMapper, Book> implements IB
             queryWrapper.like("price", requestDto.getPrice());
         }
         queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
-        queryWrapper.eq("flag", FlagStatus.START.getStatus());
+        queryWrapper.eq("flag", UseStatus.START.getStatus());
         return queryWrapper;
     }
 }

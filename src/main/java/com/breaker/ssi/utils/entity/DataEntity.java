@@ -25,8 +25,8 @@ public abstract class DataEntity<T>  implements Serializable {
     /**
      * 创建日期
      */
-    @TableField(value="CREATE_DATE", fill = FieldFill.INSERT)
-    protected LocalDateTime createDate;
+    @TableField(value="CREATE_TIME", fill = FieldFill.INSERT)
+    protected LocalDateTime createTime;
 
     /**
      * 修改人
@@ -37,8 +37,8 @@ public abstract class DataEntity<T>  implements Serializable {
     /**
      * 修改日期
      */
-    @TableField(value="UPDATE_DATE", fill = FieldFill.INSERT_UPDATE)
-    protected LocalDateTime updateDate;
+    @TableField(value="UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
+    protected LocalDateTime updateTime;
 
     /**
      * 删除标记（0：正常；1：删除；2：审核）
@@ -49,8 +49,8 @@ public abstract class DataEntity<T>  implements Serializable {
     /**
      * 启用标记（0：停用；1：启用）
      */
-    @TableField(value="FLAG", fill = FieldFill.INSERT)
-    protected String flag;
+    @TableField(value="USE_FLAG", fill = FieldFill.INSERT)
+    protected String useFlag;
 
     /**
      * 设置删除
@@ -71,21 +71,21 @@ public abstract class DataEntity<T>  implements Serializable {
      * 设置启用
      */
     public void setStart(){
-        this.setFlag(FlagStatus.START.getStatus());
+        this.setUseFlag(UseStatus.START.getStatus());
     }
 
     /**
      * 设置停用
      */
     public void setStop(){
-        this.setFlag(FlagStatus.STOP.getStatus());
+        this.setUseFlag(UseStatus.STOP.getStatus());
     }
 
     /**
      * 设置非删除&启用
      */
     public void setNormal(){
-        this.setFlag(FlagStatus.START.getStatus());
+        this.setUseFlag(UseStatus.START.getStatus());
         this.setDelFlag(DelStatus.NORMAL.getStatus());
     }
 

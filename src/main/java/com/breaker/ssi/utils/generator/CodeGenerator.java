@@ -48,7 +48,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3307/demo_test?useUnicode=true&characterEncoding=utf-8&useSSL=false");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:3307/base_auth?useUnicode=true&characterEncoding=utf-8&useSSL=false");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("123456");
@@ -57,7 +57,7 @@ public class CodeGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.breaker.ssi.business");
+        pc.setParent("com.breaker.ssi");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -110,7 +110,7 @@ public class CodeGenerator {
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix("_");
         strategy.setSuperEntityClass("com.breaker.ssi.utils.entity.IdEntity");
-        strategy.setSuperEntityColumns(new String[] { "BUSINESS_ID", "CREATE_BY", "CREATE_DATE", "UPDATE_BY", "UPDATE_DATE", "DEL_FLAG", "FLAG"});
+        strategy.setSuperEntityColumns(new String[] { "BUSINESS_ID", "CREATE_BY", "CREATE_TIME", "UPDATE_BY", "UPDATE_TIME", "DEL_FLAG", "USE_FLAG"});
         strategy.setEntitySerialVersionUID(false);
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
