@@ -6,6 +6,7 @@ import com.breaker.ssi.sys.service.impl.SysAccessServiceImpl;
 import com.breaker.ssi.utils.annotation.OperationLog;
 import com.breaker.ssi.utils.entity.BaseDelController;
 import com.breaker.ssi.utils.result.Ret;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sys/sys-access")
 public class SysAccessController extends BaseDelController<SysAccessServiceImpl, SysAccess> {
+
+    @OperationLog("删除权限")
     @Override
-    public Ret removeById(String businessId, String logDel) {
+    public Ret removeById(@PathVariable(value="businessId") String businessId, String logDel) {
         return super.removeById(businessId, logDel);
     }
 
@@ -32,8 +35,9 @@ public class SysAccessController extends BaseDelController<SysAccessServiceImpl,
         return super.insert(sysAccess);
     }
 
+    @OperationLog("编辑权限")
     @Override
-    public Ret updateById(String businessId, SysAccess sysAccess) {
+    public Ret updateById(@PathVariable(value="businessId") String businessId, SysAccess sysAccess) {
         return super.updateById(businessId, sysAccess);
     }
 }

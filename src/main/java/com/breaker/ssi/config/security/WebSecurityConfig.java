@@ -3,6 +3,7 @@ package com.breaker.ssi.config.security;
 
 import com.breaker.ssi.config.filter.JwtFilter;
 import com.breaker.ssi.config.filter.JwtLoginFilter;
+import com.breaker.ssi.utils.annotation.OperationLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

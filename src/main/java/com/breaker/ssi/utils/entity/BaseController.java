@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class BaseController<T extends ServiceImpl, E extends IdEntity> {
     @Autowired
-    T t;
+    public T t;
 
     @Transactional(rollbackFor=Exception.class)
     @PostMapping

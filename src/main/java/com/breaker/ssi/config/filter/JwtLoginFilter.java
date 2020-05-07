@@ -80,6 +80,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
         out.close();
     }
 
+    @Override
     protected void unsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse resp, AuthenticationException failed) throws IOException, ServletException {
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter out = resp.getWriter();
