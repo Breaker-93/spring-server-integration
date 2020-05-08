@@ -31,8 +31,6 @@ public class BaseController<T extends ServiceImpl, E extends IdEntity> {
     @Autowired
     public T t;
 
-    private String [] superEntityColumns;
-
     @Transactional(rollbackFor=Exception.class)
     @PostMapping
     @ApiOperation(value = "添加" , notes = "业务主键自动生成")
@@ -98,6 +96,7 @@ public class BaseController<T extends ServiceImpl, E extends IdEntity> {
         }
         QueryWrapper queryWrapper;
         if(keyword != null && keyword != "") {
+            // 考虑以后增加对指定匹配的列进行模糊筛选
             queryWrapper = getWrapperByOr(keyword, e);
         }else {
             queryWrapper = getWrapperByAnd(e);
@@ -138,11 +137,11 @@ public class BaseController<T extends ServiceImpl, E extends IdEntity> {
             Field fields[] = clazz.getDeclaredFields();
             queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
             queryWrapper.eq("business_id", "false id");
-            superEntityColumns = new String[] { "sort", "parent_id", "remarks", "json_config"};
+            String[] superEntityColumns = new String[] { "sort", "parent_id", "remarks", "json_config"};
             for (Field field : fields) {
                 // 获取普通属性的@Column注解
                 TableField tableField = field.getAnnotation(TableField.class);
-                if(!this.includeSuperEntityColumns(tableField.value())) {
+                if(!this.includeSuperEntityColumns(tableField.value(), superEntityColumns)) {
                     queryWrapper.or(true).like(tableField.value(), keyword);
                 }
             }
@@ -156,8 +155,9 @@ public class BaseController<T extends ServiceImpl, E extends IdEntity> {
     /*
     * 引用MybatisPlus中对实体公共的列的判断，判断某一列名是否在其中
     * */
-    public boolean includeSuperEntityColumns(String fieldName) {
-        return null != this.superEntityColumns ? Arrays.stream(this.superEntityColumns).anyMatch((e) -> {
+    public boolean includeSuperEntityColumns(String fieldName, String [] superEntityColumns) {
+
+        return null != superEntityColumns ? Arrays.stream(superEntityColumns).anyMatch((e) -> {
             return e.equalsIgnoreCase(fieldName);
         }) : false;
     }

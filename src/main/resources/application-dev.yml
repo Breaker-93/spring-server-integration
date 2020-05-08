@@ -12,6 +12,8 @@ spring:
     date-format: yyyy/MM/dd HH:mm:ss
     time-zone: CTT
     default-property-inclusion: always
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
 jwt:
   tokenHeader: Authentication
   tokenPrefix: Bearer
@@ -22,4 +24,4 @@ logging:
     path: ./log/
     max-size: 5MB
   level:
-    com.breaker.ssi.business: warn
+    com.breaker.ssi: debug

@@ -1,6 +1,9 @@
 package com.breaker.ssi.sys.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.breaker.ssi.sys.dto.RoleAddDto;
 import com.breaker.ssi.sys.entity.SysRole;
 import com.breaker.ssi.sys.entity.SysRoleAccess;
@@ -10,14 +13,12 @@ import com.breaker.ssi.sys.service.impl.SysRoleServiceImpl;
 import com.breaker.ssi.utils.annotation.OperationLog;
 import com.breaker.ssi.utils.entity.BaseDelController;
 import com.breaker.ssi.utils.result.Ret;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +78,19 @@ public class SysRoleController extends BaseDelController<SysRoleServiceImpl, Sys
     @Override
     public Ret updateById(@PathVariable(value="businessId") String businessId, SysRole sysRole) {
         return super.updateById(businessId, sysRole);
+    }
+
+    @GetMapping("/withAccess/page")
+    @ApiOperation(value = "多条件复合模糊或多合一模糊查询角色及权限的列表（分页）", notes = "条件模糊匹配")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "当前页", required = true),
+            @ApiImplicitParam(name = "size", value = "每页数量", required = true),
+            @ApiImplicitParam(name = "keyword", value = "多合一条件的关键字，不传则为多条件复合")
+    })
+    public Ret<IPage> getRoleList(String keyword, Integer page, Integer size) {
+        if (page == null && size == null) {
+            return Ret.error().setData("当前页和页大小不能为空");
+        }
+        return Ret.ok().setData(sysRoleService.getRoleListByPage(new Page<>(page,size), keyword));
     }
 }
