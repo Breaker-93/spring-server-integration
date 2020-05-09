@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/sys/sys-group")
 public class SysGroupController extends BaseDelController<SysGroupServiceImpl, SysGroup> {
-    @OperationLog("删除组")
+    @OperationLog("删除组(逻辑删除)")
     @Override
     public Ret removeById(@PathVariable(value="businessId") String businessId, String logDel) {
         return super.removeById(businessId, logDel);

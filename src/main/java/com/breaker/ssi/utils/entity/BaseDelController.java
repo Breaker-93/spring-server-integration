@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -39,7 +40,16 @@ public class BaseDelController<T extends ServiceImpl, E extends CommonEntity> ex
     })
     public Ret removeById(@PathVariable(value="businessId") String businessId, String logDel) {
         if ( logDel != null) {
-            E e = (E) new Object();
+            ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
+            Class clazz = (Class) parameterizedType.getActualTypeArguments()[1];
+            E e = null;
+            try {
+                e = (E)clazz.newInstance();
+            } catch (InstantiationException e1) {
+                e1.printStackTrace();
+            } catch (IllegalAccessException e1) {
+                e1.printStackTrace();
+            }
             e.setBusinessId(businessId);
             e.setDeleted();
             if(e instanceof CommonEntity) {
