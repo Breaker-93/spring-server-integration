@@ -10,6 +10,6 @@ import java.util.List;
 public class RoleAddDto {
     private String name;
     private String code;
-    private List<String> accesses;
+    private List<String> accessList;
     private String remarks;
 }
