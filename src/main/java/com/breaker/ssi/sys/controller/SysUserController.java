@@ -129,13 +129,58 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
         }
     }
 
-    @OperationLog("编辑角色")
-    @Override
-    public Ret updateById(@PathVariable(value="businessId") String businessId, SysUser sysUser) {
-        return super.updateById(businessId, sysUser);
+    @OperationLog("编辑用户")
+    @Transactional(rollbackFor=Exception.class)
+    @PutMapping("/withRoleAndGroup/{businessId:\\w+}")
+    @ApiOperation(value = "修改更新用户及关联的角色、组", notes = "修改")
+    public Ret updateById(@PathVariable(value="businessId") String businessId, UserAddDto addDto) {
+        // 简单处理，对用户关联的角色和组、无论修改与否，都先将其关联关系记录全部删除
+        Map map = new HashMap();
+        map.put("user_id", businessId);
+        sysUserGroupService.removeByMap(map);
+        sysUserRoleService.removeByMap(map);
+        List<String> groupList = addDto.getGroupList();
+        List<String> roleList = addDto.getRoleList();
+
+        if(groupList != null) {
+            List<SysUserGroup> userGroups = new ArrayList<>(groupList.size());
+            groupList.forEach( groupId -> {
+                SysUserGroup userGroup = new SysUserGroup();
+                userGroup.setUserId(businessId);
+                userGroup.setGroupId(groupId);
+                userGroups.add(userGroup);
+            });
+            sysUserGroupService.saveBatch(userGroups);
+        }
+
+        if(roleList != null) {
+            List<SysUserRole> userRoles = new ArrayList<>(roleList.size());
+            roleList.forEach( roleId -> {
+                SysUserRole userRole = new SysUserRole();
+                userRole.setUserId(businessId);
+                userRole.setRoleId(roleId);
+                userRoles.add(userRole);
+            });
+            sysUserRoleService.saveBatch(userRoles);
+        }
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(addDto.getUsername());
+        sysUser.setBusinessId(businessId);
+        SysUserInfo sysUserInfo = new SysUserInfo();
+        if(addDto.getDetailInfo() != null) {
+            sysUserInfo = addDto.getDetailInfo();
+        }
+        sysUserInfo.setUserId(businessId);
+        UpdateWrapper wrapper = new UpdateWrapper();
+        wrapper.set("user_id", businessId);
+        if (sysUserService.updateById(sysUser) && sysUserInfoService.update(sysUserInfo, wrapper)) {
+            return Ret.ok().setData("修改成功").setData(addDto);
+        } else {
+            return Ret.error().setData("修改失败");
+        }
     }
 
-    @GetMapping("/withAccessAndGroup/page")
+    @GetMapping("/withRoleAndGroup/page")
     @ApiOperation(value = "多条件复合模糊或多合一模糊查询角色及权限的列表（分页）", notes = "条件模糊匹配")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "当前页", required = true),

@@ -33,7 +33,7 @@
           t_userinfo.*,
           t_user.username
         from SYS_USER_INFO t_userinfo
-          left join SYS_USER t_user ON t_user.business_id = t_userinfo.user_id
+          right join SYS_USER t_user ON t_user.business_id = t_userinfo.user_id
         where t_userinfo.del_flag != 1
         <if test="roleId != null and roleId != ''">
           and t_userinfo.user_id in (
