@@ -1,5 +1,8 @@
 package com.breaker.ssi.sys.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.breaker.ssi.sys.dto.UserListDto;
 import com.breaker.ssi.sys.entity.SysUser;
 import com.breaker.ssi.sys.mapper.SysUserMapper;
 import com.breaker.ssi.sys.service.ISysUserService;
@@ -17,4 +20,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
+    @Override
+    public IPage<UserListDto> getUserListByPage(Page page, String keyword, String roleId, String groupId) {
+        return super.baseMapper.getUsersWithRoleAndGroup(page, keyword, roleId, groupId);
+    }
 }

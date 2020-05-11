@@ -12,6 +12,7 @@ import com.breaker.ssi.sys.service.ISysRoleService;
 import com.breaker.ssi.sys.service.impl.SysRoleServiceImpl;
 import com.breaker.ssi.utils.DozerUtils;
 import com.breaker.ssi.utils.annotation.OperationLog;
+import com.breaker.ssi.utils.entity.BaseController;
 import com.breaker.ssi.utils.entity.BaseDelController;
 import com.breaker.ssi.utils.result.Ret;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,7 +37,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/sys-role")
-public class SysRoleController {
+public class SysRoleController extends BaseController<SysRoleServiceImpl, SysRole> {
 
     @Autowired
     private ISysRoleService sysRoleService;
