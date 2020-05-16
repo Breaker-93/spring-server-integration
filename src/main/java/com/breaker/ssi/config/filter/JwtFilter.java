@@ -45,7 +45,7 @@ public class JwtFilter extends GenericFilterBean {
                     .getBody();
             // String username = claims.getSubject();//获取当前登录用户名
             String userId = claims.getId(); // 获取token 中 的businessId
-           List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
+            List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userId, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(token);
         }catch (Exception e) {

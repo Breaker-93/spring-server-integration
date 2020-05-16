@@ -7,6 +7,7 @@ import com.breaker.ssi.utils.result.ResultEnums;
 import com.breaker.ssi.utils.result.Ret;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,13 +57,10 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-        StringBuffer as = new StringBuffer();
-        for(GrantedAuthority authority: authorities) {
-            as.append(authority.getAuthority()).append(",");
-        }
+        String as = StringUtils.join(authorities, ",");
         User user = (User) authResult.getPrincipal();
         String jwt = Jwts.builder()
-                .claim("authorities", as)//配置用户角色
+                .claim("authorities", as)//配置用户权限
                 .setSubject(user.getUsername())
                 .setId(user.getBusinessId())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -74,6 +72,7 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
 //        out.write(new ObjectMapper().writeValueAsString(jwt));
         Map<String,String> resultMap = new HashMap<>();
         resultMap.put(tokenHeader, jwt);
+        resultMap.put("authorities", as);
         String resJson = JSON.toJSONString(new Ret(ResultEnums.LOGIN_SUCCESS,resultMap));
         out.write(resJson);
         out.flush();
