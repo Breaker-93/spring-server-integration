@@ -20,9 +20,13 @@
 
     <select id="getRolesWithAccess" resultMap="roleMap">
       select
-        *
+        *,
+        t_user_update.username as updateBy,
+        t_user_create.username as createBy
       from
         SYS_ROLE t_role
+        left join SYS_USER t_user_update on t_role.update_by = t_user_update.business_id
+        left join SYS_USER t_user_create on t_role.create_by = t_user_create.business_id
       <if test="keyword != null and keyword != ''">
         where
           t_role.name like concat('%', #{keyword}, '%')
