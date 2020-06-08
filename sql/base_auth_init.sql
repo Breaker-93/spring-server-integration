@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 02/05/2020 12:06:25
+ Date: 09/06/2020 06:30:37
 */
 
 SET NAMES utf8mb4;
@@ -34,6 +34,7 @@ CREATE TABLE `sys_access`  (
   `UPDATE_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '修改人',
   `UPDATE_TIME` datetime(0) NOT NULL COMMENT '修改日期',
   `DEL_FLAG` int(1) NOT NULL DEFAULT 0 COMMENT '删除标识 1 删除 0 未删除 ',
+  `USE_FLAG` int(1) NOT NULL DEFAULT 1 COMMENT '启用标记（0：停用；1：启用）',
   PRIMARY KEY (`BUSINESS_ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
@@ -87,6 +88,7 @@ CREATE TABLE `sys_role`  (
   `UPDATE_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '修改人',
   `UPDATE_TIME` datetime(0) NOT NULL COMMENT '修改日期',
   `DEL_FLAG` int(1) NOT NULL DEFAULT 0 COMMENT '删除标识 1 删除 0 未删除 ',
+  `USE_FLAG` int(1) NOT NULL DEFAULT 1 COMMENT '启用标记（0：停用；1：启用）',
   PRIMARY KEY (`BUSINESS_ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
@@ -122,7 +124,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('', '371', '$2a$10$X.cLKHYmJafVLgQRj.spUe4fzyfiQtru4Htf1Dfp8arWvKTPKHhIe', '', '2020-05-01 21:16:15', '', '2020-05-01 21:16:24', 0, 1);
+INSERT INTO `sys_user` VALUES ('0c53106fdf7749b6acdb4d96ab35365a', 'admin', '$2a$10$6T5nmb5SKhGT6/On3NBqS.JCdGYRBXOUmPJCzt0qdbP1Pd2Ym1oSy', '', '2020-05-01 21:16:15', '', '2020-05-01 21:16:24', 0, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_group
@@ -157,6 +159,7 @@ CREATE TABLE `sys_user_info`  (
   `UPDATE_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '修改人',
   `UPDATE_TIME` datetime(0) NOT NULL COMMENT '修改日期',
   `DEL_FLAG` int(1) NOT NULL DEFAULT 0 COMMENT '删除标识 1 删除 0 未删除 ',
+  `USE_FLAG` int(1) NOT NULL DEFAULT 1 COMMENT '启用标记（0：停用；1：启用）',
   PRIMARY KEY (`BUSINESS_ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
