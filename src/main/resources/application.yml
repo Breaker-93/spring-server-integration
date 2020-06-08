@@ -1,3 +1,9 @@
 spring:
   profiles:
     active: dev
+  jackson:
+    date-format: yyyy/MM/dd HH:mm:ss
+    time-zone: CTT
+    default-property-inclusion: always
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml

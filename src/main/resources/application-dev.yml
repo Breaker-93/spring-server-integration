@@ -8,12 +8,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3307/base_auth?useUnicode=true&characterEncoding=utf8&serverTimezone=CTT&useSSL=false
     username: root
     password: 123456
-  jackson:
-    date-format: yyyy/MM/dd HH:mm:ss
-    time-zone: CTT
-    default-property-inclusion: always
-mybatis-plus:
-  mapper-locations: classpath:mapper/**/*Mapper.xml
 jwt:
   tokenHeader: Authentication
   tokenPrefix: Bearer
