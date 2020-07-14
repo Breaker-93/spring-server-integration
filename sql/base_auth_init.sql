@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 09/06/2020 06:30:37
+ Date: 14/07/2020 14:48:27
 */
 
 SET NAMES utf8mb4;
@@ -71,6 +71,9 @@ CREATE TABLE `sys_log`  (
   `OPERATE_TIME` datetime(0) NOT NULL COMMENT '操作时间',
   `OPERATOR_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作人',
   `FAIL_REASON` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '失败原因（300个字符以内）',
+  `DEL_FLAG` int(1) NOT NULL DEFAULT 0 COMMENT '删除标识 1 删除 0 未删除 ',
+  `CREATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
+  `UPDATE_TIME` datetime(0) NULL DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`BUSINESS_ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
