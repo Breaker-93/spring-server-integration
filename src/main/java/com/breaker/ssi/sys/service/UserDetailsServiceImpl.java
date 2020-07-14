@@ -54,7 +54,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             saveLog("", 0, username + "该登录名不存在");
             throw new UsernameNotExistException(String.format("'%s'该登录名不存在.",username));
         }else{
-            saveLog(sysUser.getBusinessId(), 67, null);
+            saveLog(sysUser.getBusinessId(), 1, null);
             // 根据用户id获取用户的权限编码，多个权限以逗号间隔拼接
             List<String> accesses = sysUserRoleMapper.selectRolesByUser(sysUser.getBusinessId());
             if(accesses.size() > 0) {
