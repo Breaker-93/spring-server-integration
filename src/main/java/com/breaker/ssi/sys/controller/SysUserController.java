@@ -116,6 +116,7 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
         SysUserInfo userInfo = new SysUserInfo();
         userInfo.setUserId(businessId);
         UpdateWrapper wrapper = new UpdateWrapper();
+        wrapper.eq("user_id",businessId);
         wrapper.set("del_flag", DelStatus.DELETED.getStatus());
         sysUserInfoService.update(userInfo, wrapper);
 
@@ -172,7 +173,7 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
         }
         sysUserInfo.setUserId(businessId);
         UpdateWrapper wrapper = new UpdateWrapper();
-        wrapper.set("user_id", businessId);
+        wrapper.eq("user_id", businessId);
         if (sysUserService.updateById(sysUser) && sysUserInfoService.update(sysUserInfo, wrapper)) {
             return Ret.ok().setData("修改成功").setData(addDto);
         } else {
@@ -192,5 +193,15 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
             return Ret.error().setData("当前页和页大小不能为空");
         }
         return Ret.ok().setData(sysUserService.getUserListByPage(new Page<>(page,size), keyword, roleId, groupId));
+    }
+
+    @GetMapping("/info")
+    @ApiOperation(value = "多条件复合模糊或多合一模糊查询角色及权限的列表（分页）", notes = "条件模糊匹配")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "当前页", required = false)
+    })
+    public Ret getInfo() {
+
+        return null;
     }
 }
