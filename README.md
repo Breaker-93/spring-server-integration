@@ -27,7 +27,7 @@
  ### <span id="swagger">✅ 4、swagger2配置</span>
  [▲ 回顶部](#top)
 ## Swagger Api文档访问地址
- 启动后：http://localhost:8081/doc.html
+ 启动后：http://localhost:9393/api/v1/doc.html
  
 ## sql文件说明
  - user.sql 用户登录表（作用户名密码登录使用）
