@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/base_auth?useUnicode=true&characterEncoding=utf8&serverTimezone=CTT&useSSL=false
+    url: jdbc:mysql://docker_mysql:3306/test_database?useUnicode=true&characterEncoding=utf8&serverTimezone=CTT&useSSL=false
     username: root
-    password: 123456
+    password: 20201102Mima!
 jwt:
   tokenHeader: Authentication
   tokenPrefix: Bearer
@@ -20,4 +20,4 @@ logging:
   level:
     com.breaker.ssi: debug
 file:
-  upload-url: D://cache/yujin/
+  upload-url: /work/data/upload/

@@ -74,4 +74,9 @@ public class Ret<T> implements Serializable {
         this.data = data;
         return this;
     }
+
+    public Ret setMsg(String msg) {
+        this.msg = msg;
+        return this;
+    }
 }
