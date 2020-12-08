@@ -9,7 +9,8 @@ public enum ResultEnums {
     TOKEN_EXPIRED("402", "token已过期"),
     SYSTEM_ERROR("403", "系统异常"),
     NOT_FIND("404", "接口找不到"),
-    BUSINESS_ERROR("500", "业务逻辑错误");
+    BUSINESS_ERROR("500", "业务逻辑错误"),
+    UPLOAD_SIZE_EXCEED("405", "文件上传超出最大限制");
 
     private String code;
     private String msg;
