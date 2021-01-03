@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaker.ssi.sys.mapper.SysRoleMapper">
 
+    <select id="getRolesByUserId" resultType="com.breaker.ssi.sys.dto.SimpleCommonDto">
+      select
+        sr.business_id,
+        sr.name,
+        sr.code
+      from sys_user_role sur
+        left join sys_role sr on sr.business_id = sur.role_id
+      where sur.user_id = #{userId}
+    </select>
+
     <resultMap id="roleMap" type="com.breaker.ssi.sys.dto.RoleListDto">
         <id property="businessId" column="BUSINESS_ID"></id>
         <collection property="accessList" column="business_id" select="getAccessList">

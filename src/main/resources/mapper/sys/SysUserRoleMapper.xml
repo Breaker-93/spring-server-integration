@@ -15,7 +15,23 @@
           from sys_user_role t_userRole
           where t_userRole.user_id = #{userId}
         )
+        group by t_access.business_id
     </select>
 
+    <select id="selectAccessByUser" resultType="com.breaker.ssi.sys.dto.SimpleCommonDto">
+        select
+            *
+        from sys_role_access t_roleAccess
+          left join sys_access t_access on t_access.business_id = t_roleAccess.access_id
+        where
+          t_roleAccess.role_id in
+        (
+          select
+            t_userRole.role_id
+          from sys_user_role t_userRole
+          where t_userRole.user_id = #{userId}
+        )
+        group by t_access.business_id
+    </select>
 
 </mapper>

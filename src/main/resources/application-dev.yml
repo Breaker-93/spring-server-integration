@@ -20,4 +20,4 @@ logging:
   level:
     com.breaker.ssi: debug
 file:
-  upload-url: D://cache/yujin/
+  upload-url: /Users/yuji/Documents/docker-config/common-data/ssi/file/

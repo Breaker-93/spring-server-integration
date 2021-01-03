@@ -130,20 +130,23 @@ public class BaseController<T extends ServiceImpl, E extends IdEntity> {
     }
 
     public QueryWrapper getWrapperByOr(String keyword, E e) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<E> queryWrapper = new QueryWrapper<>();
         try {
             Class<?> clazz = Class.forName(e.getClass().getName());
             // 获得字段注解
             Field fields[] = clazz.getDeclaredFields();
             queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
-            queryWrapper.eq("business_id", "false id");
-            String[] superEntityColumns = new String[] { "sort", "parent_id", "remarks", "json_config"};
-            for (Field field : fields) {
-                // 获取普通属性的@Column注解
-                TableField tableField = field.getAnnotation(TableField.class);
-                if(!this.includeSuperEntityColumns(tableField.value(), superEntityColumns)) {
-                    queryWrapper.or(true).like(tableField.value(), keyword);
-                }
+            if(fields.length > 0) {
+                queryWrapper.and(qw -> {
+                    String[] superEntityColumns = new String[] { "sort", "parent_id", "remarks", "json_config"};
+                    for (Field field : fields) {
+                        // 获取普通属性的@Column注解
+                        TableField tableField = field.getAnnotation(TableField.class);
+                        if(!this.includeSuperEntityColumns(tableField.value(), superEntityColumns)) {
+                            qw.or(true).like(tableField.value(), keyword);
+                        }
+                    }
+                });
             }
         }catch (Exception exception) {
             exception.printStackTrace();
