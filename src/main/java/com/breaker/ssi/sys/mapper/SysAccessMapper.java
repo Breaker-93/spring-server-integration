@@ -1,5 +1,7 @@
 package com.breaker.ssi.sys.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.breaker.ssi.sys.entity.SysAccess;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -12,5 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-05-02
  */
 public interface SysAccessMapper extends BaseMapper<SysAccess> {
-
+    IPage<SysAccess> selectListByPage(Page page, String keyword);
 }

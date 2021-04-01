@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class BaseDelController<T extends ServiceImpl, E extends CommonEntity> extends BaseController<T, E> {
     @Autowired
-    T t;
+    public T t;
 
     @Transactional(rollbackFor=Exception.class)
     @DeleteMapping("/{businessId:\\w+}")

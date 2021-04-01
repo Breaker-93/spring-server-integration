@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.breaker.ssi.sys.mapper.SysAccessMapper">
-
+    <select id="selectListByPage" resultType="com.breaker.ssi.sys.entity.SysAccess">
+        select
+            t_access.*,
+            create_user.username as createBy,
+            update_user.username as updateBy
+        from sys_access t_access
+        left join sys_user create_user on create_user.business_id = t_access.create_by
+        left join sys_user update_user on update_user.business_id = t_access.update_by
+        where t_access.del_flag = 0
+        <if test="keyword != null and keyword != ''">
+            and (
+            t_access.name like concat('%', #{keyword}, '%')
+            or
+            t_access.code like concat('%', #{keyword}, '%')
+            )
+        </if>
+         order by t_access.create_time desc
+    </select>
 </mapper>

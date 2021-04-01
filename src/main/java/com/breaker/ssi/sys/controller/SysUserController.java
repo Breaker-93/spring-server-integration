@@ -1,14 +1,12 @@
 package com.breaker.ssi.sys.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.breaker.ssi.sys.dto.UserAddDto;
-import com.breaker.ssi.sys.entity.SysUser;
-import com.breaker.ssi.sys.entity.SysUserGroup;
-import com.breaker.ssi.sys.entity.SysUserInfo;
-import com.breaker.ssi.sys.entity.SysUserRole;
+import com.breaker.ssi.sys.entity.*;
 import com.breaker.ssi.sys.service.ISysUserGroupService;
 import com.breaker.ssi.sys.service.ISysUserInfoService;
 import com.breaker.ssi.sys.service.ISysUserRoleService;
@@ -16,7 +14,6 @@ import com.breaker.ssi.sys.service.ISysUserService;
 import com.breaker.ssi.sys.service.impl.SysUserServiceImpl;
 import com.breaker.ssi.utils.annotation.OperationLog;
 import com.breaker.ssi.utils.entity.BaseController;
-import com.breaker.ssi.utils.entity.BaseDelController;
 import com.breaker.ssi.utils.entity.DelStatus;
 import com.breaker.ssi.utils.result.Ret;
 import io.swagger.annotations.ApiImplicitParam;
@@ -63,6 +60,10 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
     public Ret insert(UserAddDto addDto) {
         SysUser sysUser = new SysUser();
         sysUser.setUsername(addDto.getUsername());
+        int result = judgeNameAndCode(sysUser, "");
+        if(result == 1) {
+            return Ret.error().setMsg("【" + sysUser.getUsername() + "】用户名称已存在");
+        }
         sysUser.setPassword(new BCryptPasswordEncoder().encode(addDto.getPassword()));
         if(sysUserService.save(sysUser)) {
             String userId = sysUser.getBusinessId();
@@ -135,6 +136,13 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
     @PutMapping("/withRoleAndGroup/{businessId:\\w+}")
     @ApiOperation(value = "修改更新用户及关联的角色、组", notes = "修改")
     public Ret updateById(@PathVariable(value="businessId") String businessId, UserAddDto addDto) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(addDto.getUsername());
+        sysUser.setBusinessId(businessId);
+        int result = judgeNameAndCode(sysUser, businessId);
+        if(result == 1) {
+            return Ret.error().setMsg("【" + sysUser.getUsername() + "】用户名称已存在");
+        }
         // 简单处理，对用户关联的角色和组、无论修改与否，都先将其关联关系记录全部删除
         Map map = new HashMap();
         map.put("user_id", businessId);
@@ -164,9 +172,7 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
             });
             sysUserRoleService.saveBatch(userRoles);
         }
-        SysUser sysUser = new SysUser();
-        sysUser.setUsername(addDto.getUsername());
-        sysUser.setBusinessId(businessId);
+
         SysUserInfo sysUserInfo = new SysUserInfo();
         if(addDto.getDetailInfo() != null) {
             sysUserInfo = addDto.getDetailInfo();
@@ -203,5 +209,27 @@ public class SysUserController extends BaseController<SysUserServiceImpl,SysUser
     public Ret getInfo() {
 
         return null;
+    }
+
+    private int judgeNameAndCode(SysUser SysUser, String id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if(id != "") {
+            queryWrapper.ne("business_id", id);
+        }
+        queryWrapper.eq("username", SysUser.getUsername());
+        queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
+        if(this.t.list(queryWrapper).size() > 0) {
+            return 1;
+        }
+//        queryWrapper = new QueryWrapper();
+//        if(id != "") {
+//            queryWrapper.ne("business_id", id);
+//        }
+//        queryWrapper.eq("code", sysRole.getCode());
+//        queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
+//        if(this.t.list(queryWrapper).size() > 0) {
+//            return 2;
+//        }
+        return 0;
     }
 }

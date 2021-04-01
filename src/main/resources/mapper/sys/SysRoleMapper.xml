@@ -43,7 +43,7 @@
           or
           t_role.code like concat('%', #{keyword}, '%')
       </if>
-
+        order by t_role.create_time desc
     </select>
 
 </mapper>

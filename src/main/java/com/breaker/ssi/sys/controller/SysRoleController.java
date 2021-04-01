@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.breaker.ssi.sys.dto.RoleAddDto;
+import com.breaker.ssi.sys.entity.SysAccess;
 import com.breaker.ssi.sys.entity.SysRole;
 import com.breaker.ssi.sys.entity.SysRoleAccess;
 import com.breaker.ssi.sys.service.ISysRoleAccessService;
@@ -14,6 +15,7 @@ import com.breaker.ssi.utils.DozerUtils;
 import com.breaker.ssi.utils.annotation.OperationLog;
 import com.breaker.ssi.utils.entity.BaseController;
 import com.breaker.ssi.utils.entity.BaseDelController;
+import com.breaker.ssi.utils.entity.DelStatus;
 import com.breaker.ssi.utils.result.Ret;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,6 +57,12 @@ public class SysRoleController extends BaseController<SysRoleServiceImpl, SysRol
         sysRole.setName(addDto.getName());
         sysRole.setCode(addDto.getCode());
         sysRole.setRemarks(addDto.getRemarks());
+        int result = judgeNameAndCode(sysRole, "");
+        if(result == 1) {
+            return Ret.error().setMsg("角色名称不能相同");
+        }else if (result == 2) {
+            return Ret.error().setMsg("角色编码已存在");
+        }
         if(sysRoleService.save(sysRole)) {
             List<String> list = addDto.getAccessList();
             if(list != null) {
@@ -96,6 +104,14 @@ public class SysRoleController extends BaseController<SysRoleServiceImpl, SysRol
     @PutMapping("/withAccess/{businessId:\\w+}")
     @ApiOperation(value = "修改更新角色及关联的权限", notes = "修改")
     public Ret updateById(@PathVariable(value="businessId") String businessId, RoleAddDto addDto) {
+        SysRole sysRole = DozerUtils.map(addDto, SysRole.class);
+        sysRole.setBusinessId(businessId);
+        int result = judgeNameAndCode(sysRole, businessId);
+        if(result == 1) {
+            return Ret.error().setMsg("角色名称不能相同");
+        }else if (result == 2) {
+            return Ret.error().setMsg("角色编码已存在");
+        }
         // 简单处理，对角色关联的权限、无论修改与否，都先将其关联关系记录全部删除
         Map map = new HashMap();
         map.put("role_id", businessId);
@@ -113,8 +129,6 @@ public class SysRoleController extends BaseController<SysRoleServiceImpl, SysRol
             });
             roleAccessService.saveBatch(roleAccessList);
         }
-        SysRole sysRole = DozerUtils.map(addDto, SysRole.class);
-        sysRole.setBusinessId(businessId);
         if (sysRoleService.updateById(sysRole)) {
             return Ret.ok().setData("修改成功").setData(addDto);
         } else {
@@ -134,5 +148,27 @@ public class SysRoleController extends BaseController<SysRoleServiceImpl, SysRol
             return Ret.error().setData("当前页和页大小不能为空");
         }
         return Ret.ok().setData(sysRoleService.getRoleListByPage(new Page<>(page,size), keyword));
+    }
+
+    private int judgeNameAndCode(SysRole sysRole, String id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if(id != "") {
+            queryWrapper.ne("business_id", id);
+        }
+        queryWrapper.eq("name", sysRole.getName());
+        queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
+        if(this.t.list(queryWrapper).size() > 0) {
+            return 1;
+        }
+        queryWrapper = new QueryWrapper();
+        if(id != "") {
+            queryWrapper.ne("business_id", id);
+        }
+        queryWrapper.eq("code", sysRole.getCode());
+        queryWrapper.eq("del_flag", DelStatus.NORMAL.getStatus());
+        if(this.t.list(queryWrapper).size() > 0) {
+            return 2;
+        }
+        return 0;
     }
 }
